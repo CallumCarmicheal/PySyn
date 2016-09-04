@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PySynCS.Translator {
-    class CompilerStorage {
+    class GenericCompiler {
         private Settings.TranslatorSettings _set;
 
-        public CompilerStorage(Translator.Settings.TranslatorSettings settings) {
+        public GenericCompiler(Translator.Settings.TranslatorSettings settings) {
             _enc = new class_Enclosure(this);
             _set = settings;
         }
@@ -18,8 +18,8 @@ namespace PySynCS.Translator {
         private class_Enclosure _enc;
         public class_Enclosure Enclosure { get { return this._enc; } }
         public class class_Enclosure {
-            private CompilerStorage parent;
-            public class_Enclosure(CompilerStorage p) { this.parent = p; }
+            private GenericCompiler parent;
+            public class_Enclosure(GenericCompiler p) { this.parent = p; }
             
             public int
                     LStart = 0, // Line starts on
@@ -149,6 +149,9 @@ namespace PySynCS.Translator {
                         commentIndex = index + 2;
 
                         comment += line;
+
+                        // Stay on the current line
+                        CurrentLine--;
                     } else {
                         // Goto the next line 
                         CurrentLine = x; // 1 will be added automatically

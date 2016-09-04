@@ -49,12 +49,12 @@ namespace PySynCS.Translator.Settings {
 
 
     public class TranslatorSettings {
-        private Syntax      _syntax;
+        private Syntax          _syntax;
 
         public ESyntaxType      SyntaxType { get; set; }
         public ETranslationType TranslationType { get; set; }
 
-        public Syntax       Syntax { get; }
+        public Syntax           Syntax { get { return this._syntax; } }
 
         public TranslatorSettings() {
             SyntaxType      = ESyntaxType.Python_Tabs;
