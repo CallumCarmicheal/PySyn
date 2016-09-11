@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PySynCS.Translator;
+using PySynCS.Translator.Cache;
 
 namespace PySynCS.GUI {
     public partial class MainGUI : Form {
 
-        MessyTranslator                                 trans;
+        Translator.Translator                           trans;
         PySynCS.Translator.Settings.TranslatorSettings  settings;
         Translator.Logger.Logger                        logger;
 
@@ -27,7 +28,7 @@ namespace PySynCS.GUI {
             settings.TranslationType = ETranslationType.toPySynCS;
 
             // Setup the translator
-            trans                    = new MessyTranslator(settings);
+            trans                    = new EvenMessierTranslator(settings);
 
             // Setup the logger
             logger = new Translator.Logger.Logger();
@@ -36,15 +37,15 @@ namespace PySynCS.GUI {
             logger.Debug.evtWriteLine   += Logger_evtWriteLine;
         }
 
-        private void Logger_evtWriteLine(Translator.Logger.BaseLogger log, Translator.Translator t, string str) {
-            richTextBox3.AppendText(log.Name + str + "\n");
+        private void Logger_evtWriteLine(Translator.Logger.BaseLogger log, Translator.Translator t, Cache cache, string str) {
+            richTextBox3.AppendText($"[{log.Name} - {cache.CurrentLine}]: {str}\n");
         }
 
-        private void Logger_evtWrite(Translator.Logger.BaseLogger log, Translator.Translator t, string str) {
-            richTextBox3.AppendText(log.Name + str + "\n");
+        private void Logger_evtWrite(Translator.Logger.BaseLogger log, Translator.Translator t, Cache cache, string str) {
+            richTextBox3.AppendText(str);
         }
 
-        private void Logger_evtClear(Translator.Logger.BaseLogger log, Translator.Translator t) {
+        private void Logger_evtClear(Translator.Logger.BaseLogger log, Translator.Translator t, Cache cache) {
             richTextBox3.Clear();
         }
         
@@ -53,10 +54,6 @@ namespace PySynCS.GUI {
 
             // Create Logger
             richTextBox2.Text = trans.ToPySyncsFromString(richTextBox1.Text, this.logger);
-        }
-
-        public void WriteDebug(string x) {
-            richTextBox3.AppendText(x + "\n");
         }
     }
 }

@@ -20,12 +20,14 @@ namespace PySynCS.Translator {
 
         protected string SubString(string txt, int start, int end = -1) {
             if (string.IsNullOrWhiteSpace(txt)) return "";
+            if (start >= txt.Length)            return "";
             if (txt.Length - 1 <= start)        return txt.Substring(start, 1);
             if (end >= txt.Length - 1)          return txt.Substring(start);
             if (start == end)                   return txt.Substring(start, 1);
             if (start > end)                    return "";
             return txt.Substring(start, end - start + 1);
         }
+
         protected int countOcc(string needle, string haystack) {
             if (needle.Length < 1) return -1;
             return (haystack.Length - haystack.Replace(needle, "").Length) / needle.Length;

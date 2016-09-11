@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PySynCS.Translator.Logger {
     public class BaseLogger {
-        public delegate void __evtWrite     (BaseLogger log, Translator t, string str);
-        public delegate void __evtWriteLine (BaseLogger log, Translator t, string str);
-        public delegate void __evtClear     (BaseLogger log, Translator t);
+        public delegate void __evtWrite     (BaseLogger log, Translator t, Cache.Cache cache, string str);
+        public delegate void __evtWriteLine (BaseLogger log, Translator t, Cache.Cache cache, string str);
+        public delegate void __evtClear     (BaseLogger log, Translator t, Cache.Cache cache);
 
         public event         __evtWrite     evtWrite;
         public event         __evtWriteLine evtWriteLine;
@@ -16,8 +16,8 @@ namespace PySynCS.Translator.Logger {
 
         public string        Name;
         
-        public void Write(Translator t, string str)     { evtWrite(this, t, str); }
-        public void WriteLine(Translator t, string str) { evtWriteLine(this, t, str); }
-        public void Clear(Translator t)                 { evtClear(this, t); }
+        public void Write       (Translator t, Cache.Cache cache,   string str)     { evtWrite      (this, t, cache, str); }
+        public void WriteLine   (Translator t, Cache.Cache cache, string str)       { evtWriteLine  (this, t, cache, str); }
+        public void Clear       (Translator t, Cache.Cache cache)                   { evtClear      (this, t, cache); }
     }
 }

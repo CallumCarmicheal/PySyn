@@ -15,14 +15,15 @@ namespace PySynCS.Translator.Cache {
         private Settings.TranslatorSettings _set;
 
         /////////////// Variables
-        public int      CurrentLine = 0;
-        public int      LineCount = 0;
-        public string   Source = "";
-        public string   Output = "";
-        public bool     commentML = false;
-        public int      offsetIndex = 0;
-        public int      currentIndent = 0;
-        public string[] Lines;
+        public int           CurrentLine = 0;
+        public int           LineCount = 0;
+        public string        Source = "";
+        public string        Output = "";
+        public bool          commentML = false;
+        public int           offsetIndex = 0;
+        public int           currentIndent = 0;
+        public string[]      Lines;
+        public Logger.Logger Logger;
 
 
         /////////////// WRITING TO THE OUTPUT

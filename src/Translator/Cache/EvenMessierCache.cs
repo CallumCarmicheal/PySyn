@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using PySynCS.Translator.Settings;
 
 namespace PySynCS.Translator.Cache {
-    class EvenMessierCache : Cache {
+    public class EvenMessierCache : Cache {
         public EvenMessierCache(TranslatorSettings settings) : base(settings) { }
 
         [Obsolete("This method of translating is not recommended, if you intend to use it please do with caution!")]

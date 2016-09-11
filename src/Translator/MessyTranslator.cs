@@ -207,7 +207,7 @@ namespace PySynCS.Translator {
 		         compiler.StillProcessing();
 		         compiler.CurrentLine++) {
 
-                logger.Debug.WriteLine(this, "Parsing Line: " + compiler.CurrentLine);
+                logger.Debug.WriteLine(this, compiler, "Parsing Line: " + compiler.CurrentLine);
 
 		        // Parse our current line of code etc into a 
 		        // more usable format. 
