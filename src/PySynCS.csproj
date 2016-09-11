@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AFF0F8B1-BA9E-4C14-AF8E-E0B0B4413631}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PySynCS</RootNamespace>
     <AssemblyName>PySynCS</AssemblyName>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PySynCS.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,8 +57,15 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Translator\CompilerStorage.cs" />
+    <Compile Include="Prototypes\StringExtensions.cs" />
+    <Compile Include="Translator\Cache\Cache.cs" />
+    <Compile Include="Translator\Cache\EvenMessierCache.cs" />
+    <Compile Include="Translator\Cache\MessyCompilerCache.cs" />
     <Compile Include="Translator\ESyntaxType.cs" />
+    <Compile Include="Translator\EvenMessierTranslator.cs" />
+    <Compile Include="Translator\Logger\BaseLogger.cs" />
+    <Compile Include="Translator\Logger\Logger.cs" />
+    <Compile Include="Translator\Translator.cs" />
     <Compile Include="Translator\MessyTranslator.cs" />
     <Compile Include="Translator\Settings\GeneralSettingsFile.cs" />
     <EmbeddedResource Include="GUI\MainGUI.resx">

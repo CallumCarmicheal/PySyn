@@ -114,7 +114,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.splitContainer1);
             this.Name = "MainGUI";
-            this.Text = "MainGUI";
+            this.Text = "  ";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

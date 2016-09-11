@@ -1,0 +1,252 @@
+/* 
+	THIS IS THE DESIGN OF THE COMPILER, PLEASE NOTE EVERYTHING IS DUE TO CHANGE!
+	EVEN THE NAME IS VAILABLE FOR A CHANGE!
+	
+	@author Callum Carmicheal
+	@date   
+			02/09/2016 UK - 19:30->00:23 = Started the whole design of the compiler and language
+	
+	@desc	A simple resyntax of C#, making the code a bit more like Python's structure and syntax, 
+			allowing code to be displayed in a cleaner and clearer way!
+	
+	TODO
+		[] Find a way of creating references
+		[] A syntax plugin for VS (IF THE COMPILER WORKS GOOD)
+		[] Create a solid markup
+	
+	
+
+	PLEASE NOTE, WE ARE KEEPING THE c# COMMENTING SYSTEM!
+
+	For syntax with spaces vs tabs,
+	We will have 3 modes to do this 
+	
+	Just a sidenote, i prefer tabs so please keep that apparent and also note that i think the writer of PEP08 either LOVED SPACES TO MUCH or HATED TABS, 
+		I will try to follow PEP but i will also cut corners since its c#, its suppost to mimic python's syntax style but not 1:1
+
+	SYNTAXES
+		py_tabs	
+			Description: 	This is a syntax that focuses mainly on TAB ONLY and will throw a error if there is a space mixed with tabs
+			Example: 	    pysyncs project-name.json /syntax py-tabs
+		py_spaces	
+			Description: 	A syntax that requires spaces 
+			Example: 	    pysyncs /proj project-name.json /syntax py_spaces [/syntax_spaces space_count_per_indent=4]
+					        pysyncs /proj project-name.json /syntax py_spaces /syntax_spaces 2 && REM 2 Spaces required to be viewed as a indent
+		lax_mixed			
+			Description:	A dangerous double edged sword but can be prove useful, this will allow spaces to be mixed with tabs, 
+					            this means you can have a tab char and 4 spaces because some people like to see the world burn!
+			Example:	    pysyncs /proj project-name.json /syntax lax_mixed [/syntax_spaces space_count_per_indent=4]
+					        pysyncs /proj project-name.json /syntax lax_mixed /syntax_spaces 2 && REM 2 Spaces and/or tab required to be viewed as a indent 
+						
+						
+	PARAMETERS
+		With [] = Optional, () = REQUIRED, WITHOUT ANYTHING = REQUIRED, {} = DATA TYPE
+		
+		Designed
+			pysyncs [/proj project-name.json] [/help] [/syntax py_tabs, py_spaces, lax_mixed] [/syntax_spaces {INT - Spaces per index}] [Extra options]
+			
+		Actual usage
+			pysyncs project-name.json
+			
+		Usages and Meanings
+			Example 		= Example cmd usage
+			Default 		= Project json name
+			Config-Override = This means that a project can override the value within the Paramter section
+			Required		= If the parameter is required
+			Required-IF		= If a parameter is used then this is required
+			
+			---- EACH FLAG IS CASE-INSENSITIVE ALTHOUGH THE VALUES ARE NOT!
+			
+			file
+				Description:     Convert a file
+				Example:		 pysyncs /file example.pysyncs /syntax py_tabs /syntax_semicolon true
+				Input: 			 (string) File name
+			
+			proj 
+				Description:	 The json file used to store project information
+				Example:		 pysyncs /proj project-name.json
+				Default:		 project.json
+				Amount:  		 Unlimited
+					Example: 	 pysyncs /proj project-name.json /proj project-2-name.json
+				Input: 			 (string) File name of json file containing project information
+			
+			help
+				Description:	 Shows help for currently used flags
+				Example: 		 pysyncs /proj /help
+				Required: 		 No
+			
+			syntax
+				Description:	 The syntax that the project follows
+				Example: 		 pysyncs /proj project-name.json /syntax py_tabs
+				Default: 		 py_tabs 
+				Config-Override: True
+				Input: 			 (string) A valid syntax
+			
+			syntax_spaces
+				Description:	 
+				Example: 		 pysyncs /proj project-name.json /syntax py_tabs /syntax_spaces 4
+				Default: 		 4
+				Config-Override: True
+				Input:			 (int) Number of spaces to be viewed as a indent
+			
+			syntax_semicolon
+				Description:
+				Example			 pysyncs /proj project-name.json /syntax py_tabs /syntax_semicolon true
+				Default:		 False
+				Input: 			 (string/int : case-insensitve) Representation of YN = (Yes/No) (True/False) (1/0)
+			
+			syntax_ignore_whitespace
+				Description: 	 	Ignores indents on a new line if they are in a incorrect format such as:
+							            -> = Tab/Space indent
+
+							            void blah: 
+							            ->Console.Write("Hello")
+							            ->->-> // Throws error if this is set to false
+							            ->Console.WriteLine(" World)
+				Example:		pysyncs /proj project-name.json /syntax py_tabs /syntax_ignore_whitespace true
+				Default:		true
+				Input: 			(string/int : case-insensitve) Representation of YN = (Yes/No) (True/False) (1/0)
+			
+			syntax_ignore_trailing
+				Description: 	Ignores indents and spaces after a function has been executed allowing for formatting comments etc
+							    Dont know if this is in PIP but i think it is so ill just add it in for now.
+							    		 
+							        -> = Tab/Space indent
+								  
+							        void blah:
+							        ->Console.Write("Hola!")->->//Something that would cause a issue if this is set to true!
+				Example:		pysyncs /proj project-name.json /syntax py_tabs /syntax_ignore_trailing true
+				Default:		true
+				Input: 			(string/int : case-insensitve) Representation of YN = (Yes/No) (True/False) (1/0)				  
+			
+			syntax_fparam_indent
+				Description: 	 This is a style rule that enforces the parameters enforces the same styling as python
+							https://www.python.org/dev/peps/pep-0008/#indentation
+								 
+							This is mainly a personal design choice for those who follow pip, 
+								i would not use this design choice and i dont think people would like this to be
+								enabled by default, so it will be disabled by default but you can enable it if you 
+								want to whip your self into a python styntax aswell!
+								 
+							This will only allow cases such as:
+								public void longname____________(param1,
+									param2): 
+										
+								or/and
+									 
+								public void longname_____________(
+									param1, param2
+								):
+									
+								or/and
+									 
+								public void longname_____________(
+									param1, param2): 
+										
+								or/and
+									 
+								longname_____________(
+									1, 0)
+									
+								or/and
+									
+								 longname_____________(
+									1, 0
+									)
+								
+								 or/and
+									 
+								longname_____________(
+									1, 0
+								)
+									 
+								 or/and
+									 
+								longclass_________.
+									longname_____________(
+										1, 0
+									)
+									
+								etc... etc...
+								
+							When this is disabled the parameters that are beside a object are viewed as a seperate entity
+							and are ignored by syntax tab rules etc!
+								
+				Example:		pysyncs /proj project-name.json /syntax py_tabs /syntax_fparam_indent true
+				Default:		false
+				Input: 			(string/int : case-insensitve) Representation of YN = (Yes/No) (True/False) (1/0)
+*/
+
+//// 
+//// Design example using a simple winforms app, 
+//// 	/Syntax py_tabs
+////    /Syntax_Semicolon false
+////    /Proj example-project.json
+////
+////	/syntax_ignore_trailing true
+//// 	/syntax_ignore_whitespace true 	
+
+/// FILE: example-project.json
+///       ---- TODO SCHEMA
+
+
+/// FILE: frmMain.cs
+using System
+using System.Collections.Generic
+using System.ComponentModel
+using System.Data
+using System.Drawing
+using System.Linq
+using System.Text
+using System.Threading.Tasks
+using System.Windows.Forms
+
+namespace Hello.World.GUI: 				    //	namespace Hello.World.GUI {
+	public partial class Main (Form): 		// 		public partial class Main : Form { 
+		public Main():				        // 	 		public Main() {
+
+            InitializeComponent()		    // 				InitializeComponent();
+                                            //			}
+
+        public void OpenForm(Title): 	    // 	 		public void OpenForm (Title) {
+			this.Text = Title               // 				this.Text = Title;
+            this.Show ()			        // 				this.Show();
+                                            //			}
+
+        private void btnClk(                // 			private void btnClk(
+            object sender,                  //				object sender,
+            EventArgs e): 			        //				EventArgs e) {
+                                            // 					// Tabs placed on purpose to text /syntax_ignore_blanklines option!
+            MessageBox.Show("Hi!")		    //				MessageBox.Show("Hi!");
+							                //			}
+			
+		public void AddButton():		    // 			private void AddButton() {
+
+            var btn = new Button()		    //				var btn = new Button();
+
+            btn.Text = "Hi"			        //				btn.Text = "Hi";
+			btn.Click += btnClk		        //				btn.Click += btnClk;
+							                //			}
+							                //		}
+							                //	}
+			
+
+/// File: Program.cs
+using System
+using System.Collections.Generic
+using System.Linq
+using System.Threading.Tasks
+using System.Windows.Forms
+
+namespace Hello.World:								                        // 	namespace Hello.World {
+	static class Program :							                        // 		static class Program {
+
+
+        static void Main(string[] args):				                    //			static void Main (string[] args) {
+
+            Application.EnableVisualStyles()			                    //				Application.EnableVisualStyles();
+            		Application.SetCompatibleTextRenderingDefault(false)	//				Application.SetCompatibleTextRenderingDefault(false);
+            		Application.Run(new GUI.Main())				            // 				Application.Run(new GUI.Main());
+                                                                            // 			}
+                                                                            //		}
+                                                                            //	}

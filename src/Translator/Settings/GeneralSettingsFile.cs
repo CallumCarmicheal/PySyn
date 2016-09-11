@@ -27,7 +27,7 @@ namespace PySynCS.Translator.Settings {
         /// -- then the comment if this is set to false. 
         /// ++ Allow as much whitespace as required after a instruction for example aligning a set of comments
         /// </summary>
-        public bool IgnoreTrailingWhitespace = true;
+        public bool RetainEmptyLineWhitespace = true;
 
         /// <summary>
         /// Enforces the PIP8 Parameter syntax rules.
